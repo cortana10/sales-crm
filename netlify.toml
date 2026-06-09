@@ -1,0 +1,30 @@
+# Netlify + Next.js 15 (App Router) Configuration
+# Requires: npm install -D @netlify/plugin-nextjs
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+  base = ""
+
+# Use Netlify's official Next.js plugin for proper SSR/ISR routing
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+  version = "^5.0.0"  # Supports Next.js 15+
+
+# Optional: Edge functions for better cold-start performance
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["@supabase/supabase-js", "openai", "lucide-react"]
+  included_files = [".next/**/*", "public/**/*", "node_modules/**/*"]
+  excluded_files = [".git/**/*", "*.md", "*.txt"]
+  # Enable edge functions for API routes if needed
+  # edge_functions = true
+
+# Redirects (fallback - plugin handles Next.js routes automatically)
+# Only needed if you have non-Next.js routes
+# [[redirects]]
+#   from = "/custom/*"
+#   to = "/custom/:splat"
+#   status = 200
+
+# Environment variables are set in Netlify Dashboard > Site Settings > Environment Variables
