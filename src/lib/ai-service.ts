@@ -1,4 +1,7 @@
+import "server-only";
+
 // AI Assistant Service
+// Uses OpenAI API for follow-up generation, chat summary, and suggested actions
 // Uses OpenAI API for follow-up generation, chat summary, and suggested actions
 
 interface AIConfig {

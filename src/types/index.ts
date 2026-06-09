@@ -18,6 +18,7 @@ export type FollowUpStatus = "pending" | "completed" | "skipped";
 
 export interface Lead {
   id: string;
+  user_id: string;
   name: string;
   phone: string;
   city?: string;
@@ -49,6 +50,7 @@ export interface FollowUp {
 
 export interface Alumni {
   id: string;
+  user_id: string;
   name: string;
   phone: string;
   departure_year?: number;
@@ -58,9 +60,24 @@ export interface Alumni {
 
 export interface SalesTarget {
   id: string;
+  user_id: string;
   month: string;
   target: number;
   actual: number;
+}
+
+export interface Campaign {
+  id: string;
+  user_id: string;
+  name: string;
+  template_type: string;
+  target_audience: string;
+  message_template: string;
+  status: "draft" | "sent" | "scheduled";
+  sent_count: number;
+  scheduled_at?: string;
+  sent_at?: string;
+  created_at: string;
 }
 
 export interface DailyMission {
