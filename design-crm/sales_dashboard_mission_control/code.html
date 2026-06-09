@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Umrah CRM - Sales Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config from Style Guidance -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed-variant": "#76312d",
+                        "primary-container": "#006747",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#8e433e",
+                        "on-surface-variant": "#3f4943",
+                        "secondary": "#775a19",
+                        "surface-tint": "#0b6c4b",
+                        "surface": "#f7f9fb",
+                        "on-secondary-container": "#785a1a",
+                        "on-tertiary-container": "#ffc3bd",
+                        "on-primary-fixed-variant": "#005137",
+                        "background": "#f7f9fb",
+                        "surface-container-low": "#f2f4f6",
+                        "outline-variant": "#bec9c1",
+                        "on-primary-container": "#8fe2ba",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#a0f4ca",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#84d7af",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-bright": "#f7f9fb",
+                        "secondary-container": "#fed488",
+                        "surface-container-high": "#e6e8ea",
+                        "tertiary-fixed": "#ffdad6",
+                        "on-tertiary-fixed": "#3d0606",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#002114",
+                        "outline": "#6f7a72",
+                        "inverse-surface": "#2d3133",
+                        "surface-container": "#eceef0",
+                        "primary": "#004d34",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-background": "#191c1e",
+                        "surface-dim": "#d8dadc",
+                        "secondary-fixed-dim": "#e9c176",
+                        "tertiary": "#712c29",
+                        "secondary-fixed": "#ffdea5",
+                        "on-secondary-fixed-variant": "#5d4201",
+                        "surface-variant": "#e0e3e5",
+                        "tertiary-fixed-dim": "#ffb3ad",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#261900",
+                        "inverse-primary": "#84d7af",
+                        "on-surface": "#191c1e"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "base": "4px",
+                        "xl": "32px",
+                        "container-max": "1440px",
+                        "xs": "8px",
+                        "sm": "12px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "gutter": "24px"
+                    },
+                    fontFamily: {
+                        "title-md": ["Geist"],
+                        "display-lg": ["Geist"],
+                        "headline-lg-mobile": ["Geist"],
+                        "label-md": ["Geist"],
+                        "label-sm": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"]
+                    },
+                    fontSize: {
+                        "title-md": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+                        "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "headline-lg-mobile": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+                        "label-md": ["14px", { lineHeight: "20px", fontWeight: "500" }],
+                        "label-sm": ["12px", { lineHeight: "16px", fontWeight: "500" }],
+                        "headline-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "body-sm": ["14px", { lineHeight: "20px", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom Checkbox Styling for Missions */
+        .mission-checkbox {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #bec9c1; /* outline-variant */
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        .mission-checkbox:checked {
+            background-color: #006747; /* primary-container */
+            border-color: #006747;
+        }
+        .mission-checkbox:checked::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 7px;
+            width: 4px;
+            height: 8px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-lg antialiased min-h-screen flex">
+<!-- SideNavBar (Shared Component) -->
+<nav class="bg-surface-container-lowest w-64 h-screen fixed left-0 top-0 flex flex-col py-lg px-md border-r border-outline-variant z-50">
+<!-- Header -->
+<div class="mb-xl flex items-center gap-sm px-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary flex items-center justify-center font-bold font-title-md">U</div>
+<div>
+<h1 class="font-title-md text-title-md text-primary-container">Umrah CRM</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Sales Professional</p>
+</div>
+</div>
+<!-- Main Nav Links -->
+<div class="flex-1 space-y-xs">
+<a class="bg-secondary-container text-on-secondary-container font-bold rounded-lg flex items-center gap-sm px-md py-sm transition-all scale-95 duration-150" href="#">
+<span class="material-symbols-outlined filled" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all flex items-center gap-sm px-md py-sm rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="person_search">person_search</span>
+<span class="font-label-md text-label-md">Leads</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all flex items-center gap-sm px-md py-sm rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+<span class="font-label-md text-label-md">Pipeline</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all flex items-center gap-sm px-md py-sm rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+<span class="font-label-md text-label-md">Alumni</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all flex items-center gap-sm px-md py-sm rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+</div>
+<!-- CTA -->
+<div class="mb-lg px-sm">
+<button class="w-full flex items-center justify-center gap-2 bg-surface-container text-primary-container font-label-md text-label-md py-sm rounded-lg hover:bg-surface-variant transition-colors border border-outline-variant border-dashed">
+<span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+                AI Assistant
+            </button>
+</div>
+<!-- Footer Nav -->
+<div class="pt-md border-t border-outline-variant space-y-xs">
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all flex items-center gap-sm px-md py-sm rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all flex items-center gap-sm px-md py-sm rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+</div>
+</nav>
+<!-- Main Wrapper -->
+<div class="flex-1 ml-64 flex flex-col min-h-screen">
+<!-- TopAppBar (Shared Component) -->
+<header class="bg-surface flex justify-between items-center px-lg w-full h-16 sticky top-0 z-40 border-b border-outline-variant">
+<div class="flex items-center gap-md">
+<h2 class="font-title-md text-title-md text-primary">Overview</h2>
+</div>
+<div class="flex items-center gap-md">
+<button class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<button class="bg-primary-container text-on-primary font-label-md text-label-md px-md py-2 rounded-lg hover:opacity-90 transition-opacity ml-sm shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    Add Lead
+                </button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="p-lg xl:p-xl flex-1 w-full max-w-container-max mx-auto flex flex-col gap-lg">
+<!-- Page Greeting -->
+<div class="mb-sm">
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Assalamu'alaikum, Ahmad</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Here is your sales performance and daily mission.</p>
+</div>
+<!-- KPI Cards Section (Level 1 Cards) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
+<!-- KPI 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-sm relative overflow-hidden group hover:border-primary-container transition-colors">
+<div class="absolute left-0 top-0 bottom-0 w-[2px] bg-secondary-container"></div>
+<div class="flex justify-between items-start">
+<span class="font-label-md text-label-md text-on-surface-variant">Total Leads</span>
+<div class="bg-surface-container p-1.5 rounded-lg text-primary-container">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface">1,248</span>
+</div>
+<div class="flex items-center gap-1 text-primary-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+<span>+12% from last month</span>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-sm relative hover:border-primary-container transition-colors">
+<div class="flex justify-between items-start">
+<span class="font-label-md text-label-md text-on-surface-variant">Target Jamaah (Mar)</span>
+<div class="bg-surface-container p-1.5 rounded-lg text-secondary">
+<span class="material-symbols-outlined text-[20px]">flag</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface">45</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">/ 50</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 mt-1">
+<div class="bg-secondary-container h-1.5 rounded-full" style="width: 90%"></div>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-sm relative hover:border-primary-container transition-colors">
+<div class="flex justify-between items-start">
+<span class="font-label-md text-label-md text-on-surface-variant">Closing This Month</span>
+<div class="bg-surface-container p-1.5 rounded-lg text-primary-container">
+<span class="material-symbols-outlined text-[20px]">task_alt</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface">28</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm">
+<span>Packs secured</span>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-sm relative hover:border-primary-container transition-colors">
+<div class="absolute left-0 top-0 bottom-0 w-[2px] bg-error"></div>
+<div class="flex justify-between items-start">
+<span class="font-label-md text-label-md text-on-surface-variant">Follow Up Today</span>
+<div class="bg-error-container p-1.5 rounded-lg text-error">
+<span class="material-symbols-outlined text-[20px]">call_log</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface">12</span>
+</div>
+<div class="flex items-center gap-1 text-error font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">priority_high</span>
+<span>3 urgent tasks</span>
+</div>
+</div>
+</div>
+<!-- Dashboard Grid (Bento style) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-lg h-full">
+<!-- Left Column: Daily Mission (Spans 2 cols on lg) -->
+<div class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
+<div class="p-md border-b border-outline-variant flex justify-between items-center bg-surface">
+<h3 class="font-title-md text-title-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container">local_fire_department</span>
+                            Daily Mission
+                        </h3>
+<span class="bg-surface-container px-2 py-1 rounded-md font-label-sm text-label-sm text-on-surface-variant">2/5 Completed</span>
+</div>
+<div class="p-md flex-1">
+<ul class="space-y-sm">
+<li class="flex items-start gap-md p-sm rounded-lg hover:bg-surface-container-low transition-colors group">
+<input checked="" class="mission-checkbox mt-0.5" type="checkbox"/>
+<div class="flex-1 line-through text-on-surface-variant">
+<p class="font-label-md text-label-md">Contact 5 Hot Leads from last week's webinar</p>
+<p class="font-body-sm text-body-sm opacity-80 mt-1">Focus on package upgrades.</p>
+</div>
+</li>
+<li class="flex items-start gap-md p-sm rounded-lg hover:bg-surface-container-low transition-colors group bg-surface">
+<input class="mission-checkbox mt-0.5" type="checkbox"/>
+<div class="flex-1 text-on-surface">
+<p class="font-label-md text-label-md">Follow up with Family Booking (Bpk. Rahman)</p>
+<div class="flex gap-2 mt-2">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container/30 text-secondary font-label-sm text-[10px]">
+<span class="material-symbols-outlined text-[12px]">schedule</span> Pending Doc
+                                        </span>
+</div>
+</div>
+</li>
+<li class="flex items-start gap-md p-sm rounded-lg hover:bg-surface-container-low transition-colors group bg-surface">
+<input class="mission-checkbox mt-0.5" type="checkbox"/>
+<div class="flex-1 text-on-surface">
+<p class="font-label-md text-label-md">Broadcast Ramadhan Promo to 50 Alumni</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Use the AI generated template.</p>
+</div>
+</li>
+<li class="flex items-start gap-md p-sm rounded-lg hover:bg-surface-container-low transition-colors group bg-surface">
+<input class="mission-checkbox mt-0.5" type="checkbox"/>
+<div class="flex-1 text-on-surface">
+<p class="font-label-md text-label-md">Verify payment receipt for Ibu Siti's group</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<!-- Right Column: Charts / Stats -->
+<div class="flex flex-col gap-lg">
+<!-- Lead Source Chart (Simplified visual) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-md">
+<h3 class="font-title-md text-title-md text-on-surface">Lead Source</h3>
+<!-- Pseudo Donut Chart / Bar Breakdown -->
+<div class="flex h-6 rounded-full overflow-hidden mt-2">
+<div class="bg-primary-container h-full" style="width: 45%;" title="Social Media"></div>
+<div class="bg-secondary-container h-full" style="width: 30%;" title="Referral"></div>
+<div class="bg-tertiary-container h-full" style="width: 15%;" title="Walk-in"></div>
+<div class="bg-outline-variant h-full" style="width: 10%;" title="Other"></div>
+</div>
+<div class="space-y-2 mt-2">
+<div class="flex justify-between items-center font-body-sm text-body-sm">
+<div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-primary-container"></span> Social Media</div>
+<span class="font-label-md text-label-md">45%</span>
+</div>
+<div class="flex justify-between items-center font-body-sm text-body-sm">
+<div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-secondary-container"></span> Referral</div>
+<span class="font-label-md text-label-md">30%</span>
+</div>
+<div class="flex justify-between items-center font-body-sm text-body-sm">
+<div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-tertiary-container"></span> Walk-in</div>
+<span class="font-label-md text-label-md">15%</span>
+</div>
+</div>
+</div>
+<!-- Monthly Trend Chart -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-md flex-1">
+<div class="flex justify-between items-center">
+<h3 class="font-title-md text-title-md text-on-surface">Closing Trend</h3>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Last 6 Months</span>
+</div>
+<div class="flex-1 flex items-end justify-between gap-2 h-32 pt-4 border-b border-outline-variant/50 pb-2 relative">
+<!-- Background grid lines -->
+<div class="absolute w-full border-t border-outline-variant/30 top-4"></div>
+<div class="absolute w-full border-t border-outline-variant/30 top-1/2"></div>
+<!-- Simple Bar Chart representation -->
+<div class="w-full bg-surface-container rounded-t-sm relative group cursor-pointer" style="height: 40%">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">12</div>
+</div>
+<div class="w-full bg-surface-container rounded-t-sm relative group cursor-pointer" style="height: 55%">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">18</div>
+</div>
+<div class="w-full bg-surface-container rounded-t-sm relative group cursor-pointer" style="height: 45%">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">15</div>
+</div>
+<div class="w-full bg-surface-container rounded-t-sm relative group cursor-pointer" style="height: 70%">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">24</div>
+</div>
+<div class="w-full bg-surface-container rounded-t-sm relative group cursor-pointer" style="height: 60%">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">20</div>
+</div>
+<div class="w-full bg-primary-container rounded-t-sm relative group cursor-pointer" style="height: 85%">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">28</div>
+</div>
+</div>
+<div class="flex justify-between text-[10px] text-on-surface-variant font-label-sm uppercase mt-1">
+<span>Oct</span><span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span class="text-primary-container font-bold">Mar</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

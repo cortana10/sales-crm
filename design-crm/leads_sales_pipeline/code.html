@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Umrah CRM - Pipeline</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#76312d",
+                    "primary-container": "#006747",
+                    "surface-container-lowest": "#ffffff",
+                    "error": "#ba1a1a",
+                    "tertiary-container": "#8e433e",
+                    "on-surface-variant": "#3f4943",
+                    "secondary": "#775a19",
+                    "surface-tint": "#0b6c4b",
+                    "surface": "#f7f9fb",
+                    "on-secondary-container": "#785a1a",
+                    "on-tertiary-container": "#ffc3bd",
+                    "on-primary-fixed-variant": "#005137",
+                    "background": "#f7f9fb",
+                    "surface-container-low": "#f2f4f6",
+                    "outline-variant": "#bec9c1",
+                    "on-primary-container": "#8fe2ba",
+                    "error-container": "#ffdad6",
+                    "on-tertiary": "#ffffff",
+                    "primary-fixed": "#a0f4ca",
+                    "on-primary": "#ffffff",
+                    "primary-fixed-dim": "#84d7af",
+                    "inverse-on-surface": "#eff1f3",
+                    "surface-bright": "#f7f9fb",
+                    "secondary-container": "#fed488",
+                    "surface-container-high": "#e6e8ea",
+                    "tertiary-fixed": "#ffdad6",
+                    "on-tertiary-fixed": "#3d0606",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed": "#002114",
+                    "outline": "#6f7a72",
+                    "inverse-surface": "#2d3133",
+                    "surface-container": "#eceef0",
+                    "primary": "#004d34",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-background": "#191c1e",
+                    "surface-dim": "#d8dadc",
+                    "secondary-fixed-dim": "#e9c176",
+                    "tertiary": "#712c29",
+                    "secondary-fixed": "#ffdea5",
+                    "on-secondary-fixed-variant": "#5d4201",
+                    "surface-variant": "#e0e3e5",
+                    "tertiary-fixed-dim": "#ffb3ad",
+                    "on-error": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#261900",
+                    "inverse-primary": "#84d7af",
+                    "on-surface": "#191c1e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "4px",
+                    "xl": "32px",
+                    "container-max": "1440px",
+                    "xs": "8px",
+                    "sm": "12px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "title-md": ["Geist", "sans-serif"],
+                    "display-lg": ["Geist", "sans-serif"],
+                    "headline-lg-mobile": ["Geist", "sans-serif"],
+                    "label-md": ["Geist", "sans-serif"],
+                    "label-sm": ["Geist", "sans-serif"],
+                    "headline-lg": ["Geist", "sans-serif"],
+                    "body-lg": ["Inter", "sans-serif"],
+                    "body-sm": ["Inter", "sans-serif"]
+            },
+            "fontSize": {
+                    "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for Kanban */
+        .kanban-scroll::-webkit-scrollbar {
+            height: 8px;
+        }
+        .kanban-scroll::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        .kanban-scroll::-webkit-scrollbar-thumb {
+            background: #bec9c1; /* outline-variant */
+            border-radius: 9999px;
+        }
+        .kanban-scroll::-webkit-scrollbar-thumb:hover {
+            background: #6f7a72; /* outline */
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-lg text-body-lg flex min-h-screen overflow-hidden antialiased">
+<!-- SideNavBar (from JSON) -->
+<nav class="w-64 h-screen fixed left-0 top-0 flex flex-col h-full py-lg px-md border-r border-outline-variant bg-surface-container-lowest shrink-0 z-50">
+<div class="flex flex-col gap-sm mb-xl px-sm">
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary-container truncate">Umrah CRM</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Sales Professional</p>
+</div>
+<button class="mb-lg w-full py-sm px-md rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors flex items-center justify-center gap-xs font-label-md text-label-md text-on-surface">
+<span class="material-symbols-outlined text-[18px]">magic_button</span>
+            AI Assistant
+        </button>
+<ul class="flex flex-col gap-base flex-1">
+<!-- Dashboard (Inactive) -->
+<li>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+</li>
+<!-- Leads (Inactive) -->
+<li>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" href="#">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-label-md text-label-md">Leads</span>
+</a>
+</li>
+<!-- Pipeline (Active) -->
+<li>
+<a class="flex items-center gap-sm px-md py-sm bg-secondary-container text-on-secondary-container font-bold rounded-lg scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_tree</span>
+<span class="font-label-md text-label-md">Pipeline</span>
+</a>
+</li>
+<!-- Alumni (Inactive) -->
+<li>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" href="#">
+<span class="material-symbols-outlined">history_edu</span>
+<span class="font-label-md text-label-md">Alumni</span>
+</a>
+</li>
+<!-- Reports (Inactive) -->
+<li>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+</li>
+</ul>
+<div class="mt-auto pt-lg border-t border-outline-variant flex flex-col gap-base">
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+</div>
+</nav>
+<!-- Main Canvas -->
+<div class="flex-1 ml-64 flex flex-col h-screen relative bg-surface">
+<!-- TopAppBar (from JSON) -->
+<header class="w-full h-16 flex justify-between items-center px-lg sticky top-0 z-40 bg-surface border-b border-outline-variant shrink-0">
+<!-- Left: Search -->
+<div class="flex items-center bg-surface-container-low rounded-full px-md py-xs border border-outline-variant focus-within:border-primary-container focus-within:ring-2 focus-within:ring-primary-fixed-dim/20 transition-all w-96">
+<span class="material-symbols-outlined text-on-surface-variant mr-sm">search</span>
+<input class="bg-transparent border-none outline-none focus:ring-0 w-full font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant" placeholder="Search leads, packages..." type="text"/>
+</div>
+<!-- Right: Actions -->
+<div class="flex items-center gap-md">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error"></span>
+</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="h-10 px-md rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md hover:opacity-80 transition-opacity flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    Add Lead
+                </button>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant ml-sm cursor-pointer">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a Middle Eastern male sales agent wearing modern corporate attire. He has a warm, welcoming smile and is set against a clean, minimal white background with soft, high-key lighting that evokes trust and efficiency." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7W9VkdwDjz6_r4APNBx0ssOazVo2CYT_QOxUl7p4kg2ryShO1umiACLXacjYHtNJt9cU3RXabyhXlcBWTbx-ONkhx5vZ8G1rWrG5WY834PFNILIasaabf0uzLAM_GEDQfY01XyeZFkCIKnLlCj36a2Q9S7DtMUYiU_ZDuiZj7N5MACxCJGw0_UIN02aR-cuten0HavRaQuRgImR5_DH7tsyEPVxD_6GEWz7aUOazkyDBp5pK96hH6jNf9EpNA-2okrtYNHFSxWTC7"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<main class="flex-1 flex flex-col overflow-hidden">
+<!-- Page Header & Controls -->
+<div class="px-xl py-lg flex items-end justify-between shrink-0">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Sales Pipeline</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Manage and track pilgrim leads through the conversion process.</p>
+</div>
+<div class="flex items-center gap-md">
+<!-- Filters -->
+<div class="flex items-center gap-sm mr-sm">
+<button class="h-9 px-sm border border-outline-variant rounded-lg bg-surface-container-lowest font-label-md text-label-md text-on-surface flex items-center gap-xs hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[16px]">filter_list</span>
+                            Filter
+                        </button>
+<div class="h-6 w-px bg-outline-variant"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Active: None</span>
+</div>
+<!-- View Toggle -->
+<div class="flex items-center bg-surface-container-low rounded-lg p-1 border border-outline-variant">
+<button class="h-8 px-md rounded-md bg-surface-container-lowest shadow-sm font-label-md text-label-md text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">view_kanban</span>
+                            Board
+                        </button>
+<button class="h-8 px-md rounded-md text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-lowest/50 transition-colors flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">table_rows</span>
+                            Table
+                        </button>
+</div>
+</div>
+</div>
+<!-- Kanban Board Canvas -->
+<div class="flex-1 overflow-x-auto kanban-scroll px-xl pb-xl flex items-start gap-lg">
+<!-- Stage 1: New Lead -->
+<div class="w-[320px] shrink-0 flex flex-col gap-sm bg-surface-container-low rounded-xl p-sm border border-outline-variant">
+<div class="flex justify-between items-center px-xs py-1">
+<div class="flex items-center gap-xs">
+<div class="w-2 h-2 rounded-full bg-outline"></div>
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wide">New Lead</h3>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-variant px-2 py-0.5 rounded-full">3</span>
+</div>
+<div class="flex flex-col gap-sm overflow-y-auto max-h-full pr-1">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md flex flex-col gap-sm relative group hover:border-outline transition-colors cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-[3px] bg-secondary-fixed-dim rounded-l-lg"></div> <!-- Priority Indicator -->
+<div class="flex justify-between items-start pl-xs">
+<div>
+<h4 class="font-title-md text-title-md text-on-surface">Ahmed Al-Farsi</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant">WhatsApp Inquiry</span>
+</div>
+<span class="font-label-sm text-label-sm bg-error-container text-on-error-container px-2 py-0.5 rounded-md">Urgent</span>
+</div>
+<div class="flex items-center gap-xs font-body-sm text-body-sm text-on-surface-variant pl-xs">
+<span class="material-symbols-outlined text-[16px]">flight_takeoff</span>
+                                Premium Ramadan Package
+                            </div>
+<div class="flex items-center gap-xs font-body-sm text-body-sm text-primary pl-xs mt-1">
+<span class="material-symbols-outlined text-[16px]">event</span>
+                                Follow up: Today, 2:00 PM
+                            </div>
+<div class="mt-sm pt-sm border-t border-outline-variant flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="flex gap-xs">
+<button class="w-8 h-8 rounded bg-surface hover:bg-surface-container flex items-center justify-center text-primary-container transition-colors" title="Chat">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</button>
+<button class="w-8 h-8 rounded bg-surface hover:bg-surface-container flex items-center justify-center text-on-surface-variant transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors" title="Set Reminder">
+<span class="material-symbols-outlined text-[18px]">notifications_active</span>
+</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md flex flex-col gap-sm relative group hover:border-outline transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-title-md text-title-md text-on-surface">Fatima Zahra</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Website Form</span>
+</div>
+</div>
+<div class="flex items-center gap-xs font-body-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">flight_takeoff</span>
+                                Standard 14 Days
+                            </div>
+<div class="flex items-center gap-xs font-body-sm text-body-sm text-on-surface-variant mt-1">
+<span class="material-symbols-outlined text-[16px]">event</span>
+                                No follow-up set
+                            </div>
+<div class="mt-sm pt-sm border-t border-outline-variant flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="flex gap-xs">
+<button class="w-8 h-8 rounded bg-surface hover:bg-surface-container flex items-center justify-center text-primary-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</button>
+<button class="w-8 h-8 rounded bg-surface hover:bg-surface-container flex items-center justify-center text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Stage 2: Contacted -->
+<div class="w-[320px] shrink-0 flex flex-col gap-sm bg-surface-container-low rounded-xl p-sm border border-outline-variant">
+<div class="flex justify-between items-center px-xs py-1">
+<div class="flex items-center gap-xs">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wide">Contacted</h3>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-variant px-2 py-0.5 rounded-full">1</span>
+</div>
+<div class="flex flex-col gap-sm overflow-y-auto max-h-full pr-1">
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md flex flex-col gap-sm relative group hover:border-outline transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-title-md text-title-md text-on-surface">Tariq Mansoor</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Referral</span>
+</div>
+</div>
+<div class="flex items-center gap-xs font-body-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">flight_takeoff</span>
+                                Custom Family Package
+                            </div>
+<div class="flex items-center gap-xs font-body-sm text-body-sm text-on-surface-variant mt-1">
+<span class="material-symbols-outlined text-[16px]">event</span>
+                                Follow up: Tomorrow
+                            </div>
+<div class="mt-sm pt-sm border-t border-outline-variant flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="flex gap-xs">
+<button class="w-8 h-8 rounded bg-surface hover:bg-surface-container flex items-center justify-center text-primary-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</button>
+<button class="w-8 h-8 rounded bg-surface hover:bg-surface-container flex items-center justify-center text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Stage 3: Interested -->
+<div class="w-[320px] shrink-0 flex flex-col gap-sm bg-surface-container-low rounded-xl p-sm border border-outline-variant opacity-80 border-dashed">
+<div class="flex justify-between items-center px-xs py-1">
+<div class="flex items-center gap-xs">
+<div class="w-2 h-2 rounded-full bg-primary-fixed-dim"></div>
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wide">Interested</h3>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-variant px-2 py-0.5 rounded-full">0</span>
+</div>
+<div class="flex-1 flex items-center justify-center min-h-[100px] border-2 border-dashed border-outline-variant rounded-lg m-xs">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Drop lead here</span>
+</div>
+</div>
+<!-- Stage 4: Waiting Decision -->
+<div class="w-[320px] shrink-0 flex flex-col gap-sm bg-surface-container-low rounded-xl p-sm border border-outline-variant">
+<div class="flex justify-between items-center px-xs py-1">
+<div class="flex items-center gap-xs">
+<div class="w-2 h-2 rounded-full bg-secondary-container"></div>
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wide">Waiting Decision</h3>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-variant px-2 py-0.5 rounded-full">1</span>
+</div>
+<div class="flex flex-col gap-sm overflow-y-auto max-h-full pr-1">
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md flex flex-col gap-sm relative group hover:border-outline transition-colors cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-[3px] bg-secondary-fixed-dim rounded-l-lg"></div>
+<div class="flex justify-between items-start pl-xs">
+<div>
+<h4 class="font-title-md text-title-md text-on-surface">Yusuf Ibrahim</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Walk-in</span>
+</div>
+<span class="font-label-sm text-label-sm bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-md">Pending</span>
+</div>
+<div class="flex items-center gap-xs font-body-sm text-body-sm text-on-surface-variant pl-xs">
+<span class="material-symbols-outlined text-[16px]">flight_takeoff</span>
+                                VIP Executive Package
+                            </div>
+</div>
+</div>
+</div>
+<!-- Stage 5: DP Paid -->
+<div class="w-[320px] shrink-0 flex flex-col gap-sm bg-surface-container-low rounded-xl p-sm border border-outline-variant">
+<div class="flex justify-between items-center px-xs py-1">
+<div class="flex items-center gap-xs">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wide">DP Paid</h3>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-variant px-2 py-0.5 rounded-full">0</span>
+</div>
+<div class="flex-1 flex items-center justify-center min-h-[100px] border-2 border-dashed border-outline-variant rounded-lg m-xs">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Drop lead here</span>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
